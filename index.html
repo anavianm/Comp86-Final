@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
-<script src="https://unpkg.com/anycontrol/dist/index.umd.min.js"></script>
+<title>COMP86 - Final Assignment</title>
+<!-- <script src="https://unpkg.com/anycontrol/dist/index.umd.min.js"></script> -->
 <style>
 	canvas {
 		border: 1px solid #d3d3d3;
@@ -44,7 +44,7 @@ recognition.onresult = (event) => {
 	console.log(finalTranscript);
 	console.log(interimTranscript);
 	
-	if(finalTranscript == "Up" || finalTranscript == "up" || finalTranscript == "above" && command == 0){
+	if(finalTranscript == "go up" || finalTranscript == "Go up" || finalTranscript == "up" || finalTranscript == "above" && command == 0){
 		moveup();
 		command = 1;
 //		recognition.stop();
