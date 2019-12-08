@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<script src="https://unpkg.com/anycontrol/dist/index.umd.min.js"></script>
+<style>
+	canvas {
+		border: 1px solid #d3d3d3;
+		background-color: #f1f1f1;
+	}
+	
+</style>
+</head>
+
+
+<body onLoad="startGame()">
+<!--<h1 class="up"></h1>-->
+	
+<script>
+	
+var command = 0;
+
+window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+let finalTranscript = '';
+let recognition = new window.SpeechRecognition();
+	
+recognition.interimResults = true;
+recognition.maxAlternatives = 10;
+//recognition.continuous = true;
+	
+recognition.onresult = (event) => {
+	let interimTranscript = '';
+	for(let i = event.resultIndex, len = event.results.length; i < len; i++){
+		let transcript = event.results[i][0].transcript;
+		if(event.results[i].isFinal){
+			finalTranscript = transcript;
+			command = 0;
+		}else{
+			interimTranscript = transcript;
+		}
+	}
+	
+	console.log(finalTranscript);
+	console.log(interimTranscript);
+	
+	if(finalTranscript == "Up" || finalTranscript == "up" || finalTranscript == "above" && command == 0){
+		moveup();
+		command = 1;
+//		recognition.stop();
+	}else if(finalTranscript == "Down" || finalTranscript == "down" && command == 0){
+		movedown();	
+		command = 1;
+//		recognition.stop();
+ 	}else if(finalTranscript == "Left" || finalTranscript == "left" && command == 0){
+		moveleft();
+		command = 1;
+//		recognition.stop();
+	}else if(finalTranscript == "Right" || finalTranscript == "right" && command == 0){
+		moveright();
+		command = 1;
+//		recognition.stop();
+	}else if(finalTranscript == "stop" || finalTranscript == "Stop" && command == 0){
+		stopMove();
+		command = 1;
+	}
+	
+	document.querySelector('h1').innerHTML = finalTranscript + '<i style = "color:#ddd;">'
+}
+
+document.body.onclick = function() {
+  recognition.start();
+  console.log('Ready to receive a color command.');
+}
+
+recognition.onspeechend = function() {
+  recognition.stop();
+  command = 1;
+}
+	
+</script>	
+	
+<script>
+
+var score;
+var gamePiece;
+var coinList = [];
+var obstacleList = [];
+	
+function startGame(){
+	myGameArea.start();
+	obstacle = new component(10, 200, "green", 300, 120);
+	gamePiece = new component(30,30,"red", 10,120);
+	coin = new component(10,10,"yellow", 60, 60);
+	
+}
+	
+var myGameArea = {
+	canvas : document.createElement("canvas"),
+	start : function(){
+		this.canvas.width = 500;
+		this.canvas.height = 500;
+		this.context = this.canvas.getContext("2d");
+		document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+		this.frames = 0;
+		this.inerval = setInterval(updateGameArea, 20);
+	},
+	clear:function(){
+		this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
+	}, 
+	stop : function(){
+		clearInterval(this.interval);
+	}
+}
+	
+//hello
+	
+function component(width, height, color, x, y){
+	this.width = width;
+	this.height = height;
+	this.speedx = 0;
+	this.speedy = 0;
+	this.x = x;
+	this.y = y;
+	this.update = function(){
+		ctx = myGameArea.context;
+		ctx.fillStyle = color;
+		ctx.fillRect(this.x, this.y, this.width, this.height);
+	}
+	
+	this.newPos = function(){
+		this.x += this.speedx;
+		this.y += this.speedy;
+	}
+	
+	this.crashInto = function(otherobj){
+		    var myleft = this.x;
+			var myright = this.x + (this.width);
+			var mytop = this.y;
+			var mybottom = this.y + (this.height);
+			var otherleft = otherobj.x;
+			var otherright = otherobj.x + (otherobj.width);
+			var othertop = otherobj.y;
+			var otherbottom = otherobj.y + (otherobj.height);
+			var crash = true;
+			if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+			    crash = false;
+			}
+			return crash;
+ 
+	}
+	
+}
+
+function updateGameArea() {
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+    for (i = 0; i < obstacleList.length; i += 1) {
+        if (gamePiece.crashInto(obstacleList[i])) {
+            myGameArea.stop();
+            return;
+        } 
+
+    }
+	for (i = 0; i < coinList.length; i += 1) {
+        if(gamePiece.crashInto(coinList[i])){
+			coinList.splice(i,1);
+			score ++;
+		}
+    }
+    myGameArea.clear();
+    myGameArea.frames += 1;
+    if (myGameArea.frames == 1 || everyinterval(500)) {
+        x = myGameArea.canvas.width;
+	 	minHeight = 20;
+		maxHeight = 200;
+		height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+		minGap = 100;
+		maxGap = 200;
+		gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+		coinPos = Math.floor(Math.random()*(height-gap) + height+gap);
+		obstacleList.push(new component(10, height, "green", x, 0));
+		obstacleList.push(new component(10, x - height - gap, "green", x, height + gap));
+		
+		coinList.push(new component(10, 10, "yellow", x-70, coinPos));
+    }
+    for (i = 0; i < obstacleList.length; i += 1) {
+        obstacleList[i].x += -1;
+        obstacleList[i].update();
+		
+    }
+	
+	for (i = 0; i < coinList.length; i += 1) {
+        coinList[i].x += -1;
+        coinList[i].update();
+		
+    }
+//	
+    gamePiece.newPos();    
+    gamePiece.update();
+}
+	
+
+
+function everyinterval(n) {
+	if ((myGameArea.frames / n) % 1 == 0) {
+		return true;
+	}
+	return false;
+}
+
+
+	
+function moveup() {
+  gamePiece.y -= 50;
+}
+
+function movedown() {
+  gamePiece.y += 50;
+}
+
+function moveleft() {
+  gamePiece.x -= 50;
+}
+
+function moveright() {
+  gamePiece.x += 50;
+}
+	
+function stopMove(){
+	gamePiece.speedx = 0;
+	gamePiece.speedy = 0;
+}
+	
+</script>
+	
+<button onmousedown="moveup()" onmouseup="stopMove()" ontouchstart="moveup()">UP</button>
+<button onmousedown="movedown()" onmouseup="stopMove()" ontouchstart="movedown()">DOWN</button>
+<button onmousedown="moveleft()" onmouseup="stopMove()" ontouchstart="moveleft()">LEFT</button>
+<button onmousedown="moveright()" onmouseup="stopMove()" ontouchstart="moveright()">RIGHT</button>
+<h1></h1>
+
+</body>
+</html>
