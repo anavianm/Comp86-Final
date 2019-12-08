@@ -8,6 +8,12 @@
 	canvas {
 		border: 1px solid #d3d3d3;
 		background-color: #f1f1f1;
+		padding-left: 0;
+	    padding-right: 0;
+	    margin-left: auto;
+	    margin-right: auto;
+	    display: block;
+}
 	}
 	
 </style>
@@ -86,12 +92,13 @@ var score;
 var gamePiece;
 var coinList = [];
 var obstacleList = [];
+
 	
 function startGame(){
 	myGameArea.start();
-	obstacle = new component(10, 200, "green", 300, 120);
-	gamePiece = new component(30,30,"red", 10,120);
-	coin = new component(10,10,"yellow", 60, 60);
+	obstacle = new component(10, 200, "salmon", 300, 120, "nonimage");
+	gamePiece = new component(30,30,"red", 10,120, "nonimage");
+	coin = new component(10,10,"mariocoin.png", 60, 60, "image");
 	
 }
 	
@@ -115,17 +122,36 @@ var myGameArea = {
 	
 //hello
 	
-function component(width, height, color, x, y){
+function component(width, height, color, x, y, type){
 	this.width = width;
 	this.height = height;
 	this.speedx = 0;
 	this.speedy = 0;
 	this.x = x;
 	this.y = y;
+	this.type = type;
+
+	if (type == "image") {
+	    this.image = new Image();
+	    this.image.src = color;
+  	}
+
+	const img = new Image();
+	img.src = 'rainbow.jpg';
+	
+
 	this.update = function(){
 		ctx = myGameArea.context;
-		ctx.fillStyle = color;
-		ctx.fillRect(this.x, this.y, this.width, this.height);
+		// if(color == "pattern"){
+		// 	const pattern = ctx.createPattern(img, 'repeat');
+		// 	ctx.fillStyle = pattern;
+		if (type == "image") {
+      		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+  		}else{
+			ctx.fillStyle = color;
+			ctx.fillRect(this.x, this.y, this.width, this.height, "nonimage");
+		}
+		// ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
 	
 	this.newPos = function(){
@@ -178,10 +204,15 @@ function updateGameArea() {
 		maxGap = 200;
 		gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
 		coinPos = Math.floor(Math.random()*(height-gap) + height+gap);
-		obstacleList.push(new component(10, height, "green", x, 0));
-		obstacleList.push(new component(10, x - height - gap, "green", x, height + gap));
+		obstacleList.push(new component(10, height, "salmon", x, 0, "nonimage"));
+		obstacleList.push(new component(10, x - height - gap, "salmon", x, height + gap, "nonimage"));
 		
-		coinList.push(new component(10, 10, "yellow", x-70, coinPos));
+		// Defining image for the coin
+		// const coin_img = new Image();
+		// coin_img.src = 'mariocoin.png';
+		coinList.push(new component(10, 20, "mariocoin.png",  x-70, coinPos, "image"));
+
+
     }
     for (i = 0; i < obstacleList.length; i += 1) {
         obstacleList[i].x += -1;
