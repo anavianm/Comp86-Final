@@ -4,6 +4,8 @@
   <!-- basic.html -->
   <title>Instructions</title>
   <meta charset = "UTF-8" />
+
+	
 </head>
 <body>
   <h1>How to Play</h1>
@@ -18,5 +20,53 @@
     If you hit the obstables, please say "new game" to restart and play again.</br>
 
   </p>
+
+	<h3></h3>
 </body>
+
+<script>
+	
+var command = 0;
+
+window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+let finalTranscript = '';
+let recognition = new window.SpeechRecognition();
+	
+recognition.interimResults = true;
+recognition.maxAlternatives = 10;
+//recognition.continuous = true;
+	
+recognition.onresult = (event) => {
+	let interimTranscript = '';
+	for(let i = event.resultIndex, len = event.results.length; i < len; i++){
+		let transcript = event.results[i][0].transcript;
+		if(event.results[i].isFinal){
+			finalTranscript = transcript;
+			command = 0;
+		}else{
+			interimTranscript = transcript;
+		}
+	}
+	
+	console.log(finalTranscript);
+	console.log(interimTranscript);
+	
+	if(finalTranscript == "go back" || finalTranscript == "Go back" || finalTranscript == "return" || finalTranscript == "return to game"){
+		window.location.href = "index.html";
+	}
+	
+	document.querySelector('h3').innerHTML = finalTranscript + '<i style = "color:#ddd;">'
+}
+
+document.body.onclick = function() {
+  recognition.start();
+  console.log('Ready to receive command.');
+}
+
+recognition.onspeechend = function() {
+  recognition.stop();
+  command = 1;
+}
+	
+</script>	
 </html>

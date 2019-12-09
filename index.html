@@ -20,7 +20,8 @@
 </head>
 
 
-<body onLoad="startGame()">
+<body>
+<button onClick="startGame()">Click me to Start the Game!</button>
 <p id="score"></p>
 <!--<h1 class="up"></h1>-->
 	
@@ -51,19 +52,19 @@ recognition.onresult = (event) => {
 	console.log(finalTranscript);
 	console.log(interimTranscript);
 	
-	if(finalTranscript == "go up" || finalTranscript == "Go up" || finalTranscript == "up" || finalTranscript == "above" && command == 0){
+	if(finalTranscript == "go up" || finalTranscript == "rise" || finalTranscript == "up" || finalTranscript == "above" && command == 0){
 		moveup();
 		command = 1;
 //		recognition.stop();
-	}else if(finalTranscript == "Down" || finalTranscript == "down" && command == 0){
+	}else if(finalTranscript == "down" || finalTranscript == "go down" && command == 0){
 		movedown();	
 		command = 1;
 //		recognition.stop();
- 	}else if(finalTranscript == "Left" || finalTranscript == "left" && command == 0){
+ 	}else if(finalTranscript == "left" || finalTranscript == "go left" && command == 0){
 		moveleft();
 		command = 1;
 //		recognition.stop();
-	}else if(finalTranscript == "Right" || finalTranscript == "right" && command == 0){
+	}else if(finalTranscript == "right" || finalTranscript == "go right" && command == 0){
 		moveright();
 		command = 1;
 //		recognition.stop();
@@ -72,7 +73,11 @@ recognition.onresult = (event) => {
 		command = 1;
 	}else if(finalTranscript == "restart game" || finalTranscript == "Restart Game" && command == 0){
 		location.reload();
+	}else if(finalTranscript == "how to play" || finalTranscript == "instructions" && command == 0){
+		window.location.href = "instructions.html";
+
 	}
+	
 	
 	document.querySelector('h1').innerHTML = finalTranscript + '<i style = "color:#ddd;">'
 }
