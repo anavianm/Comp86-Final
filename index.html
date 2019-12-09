@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>COMP86 - Final Assignment</title>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
 <!-- <script src="https://unpkg.com/anycontrol/dist/index.umd.min.js"></script> -->
 <style>
 	canvas {
@@ -13,8 +15,32 @@
 	    margin-left: auto;
 	    margin-right: auto;
 	    display: block;
-}
 	}
+	body{
+		text-align: center;
+	}
+	
+	button {
+		text-align: center;
+		font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+		background-color: #E46F30;
+		font-size: 24px;
+		color: #fff;
+		padding: 10px 20px;
+		border-radius: 8px;
+		border: 6px solid #C6C2B9;
+	}
+	
+	#score{
+		font-size: 25px;
+		font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+	}
+	
+	
+	#box{
+		  border: dashed #EC7B38;
+	  }
+	
 	
 </style>
 </head>
@@ -22,7 +48,9 @@
 
 <body>
 	<div style="text-align:center;">
-<button onClick="startGame()">Click me to Start the Game!</button>
+		<img src="voicy.png" style="height: 70px; width: auto;">
+	</div>
+<button onClick="startGame()" id="start">Click me to Start the Game!</button>
 <p id="score"></p>
 <!--<h1 class="up"></h1>-->
 	
@@ -34,7 +62,7 @@ window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecogn
 let finalTranscript = '';
 let recognition = new window.SpeechRecognition();
 	
-recognition.interimResults = true;
+//recognition.interimResults = true;
 recognition.maxAlternatives = 10;
 //recognition.continuous = true;
 	
@@ -53,19 +81,19 @@ recognition.onresult = (event) => {
 	console.log(finalTranscript);
 	console.log(interimTranscript);
 	
-	if(finalTranscript == "go up" || finalTranscript == "rise" || finalTranscript == "up" || finalTranscript == "above" && command == 0){
+	if(finalTranscript == "go up" || finalTranscript == "move up" || finalTranscript == "up" || finalTranscript == "above" && command == 0){
 		moveup();
 		command = 1;
 //		recognition.stop();
-	}else if(finalTranscript == "down" || finalTranscript == "go down" && command == 0){
+	}else if(finalTranscript == "move down" || finalTranscript == "go down" || finalTranscript == "down" && command == 0){
 		movedown();	
 		command = 1;
 //		recognition.stop();
- 	}else if(finalTranscript == "left" || finalTranscript == "go left" && command == 0){
+ 	}else if(finalTranscript == "move left" || finalTranscript == "go left" || finalTranscript == "left" && command == 0){
 		moveleft();
 		command = 1;
 //		recognition.stop();
-	}else if(finalTranscript == "right" || finalTranscript == "go right" && command == 0){
+	}else if(finalTranscript == "move right" || finalTranscript == "go right" || finalTranscript == "right" && command == 0){
 		moveright();
 		command = 1;
 //		recognition.stop();
@@ -77,6 +105,10 @@ recognition.onresult = (event) => {
 	}else if(finalTranscript == "how to play" || finalTranscript == "instructions" && command == 0){
 		window.location.href = "instructions.html";
 
+	}else if(finalTranscript == "move super down" || finalTranscript == "go super down" && command == 0){
+		movesuperdown();
+	}else if(finalTranscript == "move super up" || finalTranscript == "go super up" && command == 0){
+		movesuperup();
 	}
 	
 	
@@ -274,10 +306,22 @@ function moveright() {
   gamePiece.x += 50;
 }
 	
+function movesuperdown() {
+  gamePiece.y += 85;
+}
+	
+function movesuperup() {
+  gamePiece.y -= 85;
+}
 function stopMove(){
 	gamePiece.speedx = 0;
 	gamePiece.speedy = 0;
 }
+	
+$('#start').click(function (){
+         $(this).hide();
+     }
+);
 	
 </script>
 	
