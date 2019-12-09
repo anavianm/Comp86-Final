@@ -5,7 +5,12 @@
 <title>COMP86 - Final Assignment</title>
 <!-- <script src="https://unpkg.com/anycontrol/dist/index.umd.min.js"></script> -->
 <style>
+	
+	body{
+		text-align: center;
+	}
 	canvas {
+		
 		border: 1px solid #d3d3d3;
 		background-color: #ccf5ff;
 		padding-left: 0;
@@ -13,14 +18,38 @@
 	    margin-left: auto;
 	    margin-right: auto;
 	    display: block;
-}
 	}
+	
+	button {
+		text-align: center;
+		font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+		background-color: #E46F30;
+		font-size: 24px;
+		color: #fff;
+		padding: 10px 20px;
+		border-radius: 8px;
+		border: 6px solid #C6C2B9;
+	}
+	
+	#score{
+		font-size: 25px;
+		font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+	}
+	
+	
+	#box{
+		  border: dashed #EC7B38;
+	  }
+	
 	
 </style>
 </head>
 
 
 <body>
+<div>
+	<img src="voicy.png" style="height: 60px"; "width: auto";>	
+</div>
 <button onClick="startGame()">Click me to Start the Game!</button>
 <p id="score"></p>
 <!--<h1 class="up"></h1>-->
@@ -33,7 +62,7 @@ window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecogn
 let finalTranscript = '';
 let recognition = new window.SpeechRecognition();
 	
-recognition.interimResults = true;
+//recognition.interimResults = true;
 recognition.maxAlternatives = 10;
 //recognition.continuous = true;
 	
@@ -52,19 +81,19 @@ recognition.onresult = (event) => {
 	console.log(finalTranscript);
 	console.log(interimTranscript);
 	
-	if(finalTranscript == "go up" || finalTranscript == "rise" || finalTranscript == "up" || finalTranscript == "above" && command == 0){
+	if(finalTranscript == "go up" || finalTranscript == "rise" || finalTranscript == "move up" || finalTranscript == "above" && command == 0){
 		moveup();
 		command = 1;
 //		recognition.stop();
-	}else if(finalTranscript == "down" || finalTranscript == "go down" && command == 0){
+	}else if(finalTranscript == "move down" || finalTranscript == "go down" && command == 0){
 		movedown();	
 		command = 1;
 //		recognition.stop();
- 	}else if(finalTranscript == "left" || finalTranscript == "go left" && command == 0){
+ 	}else if(finalTranscript == "move left" || finalTranscript == "go left" && command == 0){
 		moveleft();
 		command = 1;
 //		recognition.stop();
-	}else if(finalTranscript == "right" || finalTranscript == "go right" && command == 0){
+	}else if(finalTranscript == "move right" || finalTranscript == "go right" && command == 0){
 		moveright();
 		command = 1;
 //		recognition.stop();
@@ -73,8 +102,12 @@ recognition.onresult = (event) => {
 		command = 1;
 	}else if(finalTranscript == "restart game" || finalTranscript == "Restart Game" && command == 0){
 		location.reload();
-	}else if(finalTranscript == "how to play" || finalTranscript == "instructions" && command == 0){
-		window.location.href = "instructions.html";
+
+	}else if(finalTranscript == "go super up" || finalTranscript == "move super up" && command == 0){
+		movesuperup();
+
+	}else if(finalTranscript == "go super down" || finalTranscript == "move super down" && command == 0){
+		movesuperdown();
 
 	}
 	
@@ -220,7 +253,7 @@ function updateGameArea() {
 		// Defining image for the coin
 		// const coin_img = new Image();
 		// coin_img.src = 'mariocoin.png';
-		coinList.push(new component(10, 20, "mariocoin.png",  x-70, coinPos, "image"));
+		coinList.push(new component(10, 20, "mariocoin.png",  x-150, coinPos, "image"));
 
 
     }
@@ -268,6 +301,14 @@ function moveleft() {
 
 function moveright() {
   gamePiece.x += 50;
+}
+
+function movesuperup() {
+  gamePiece.y -= 80;
+}
+	
+function movesuperdown() {
+  gamePiece.y += 80;
 }
 	
 function stopMove(){
