@@ -3,6 +3,9 @@ Assignment 11
 Maxwell Anavian and Anju Ishizaki
 December 8th, 2019
 
+RUN USING INCLUDED SERVER.PY AT LOCAL HOST 8080
+(should also work as a local file but testing was done with localhost)
+
 Important Note:
 We have decided to alter our initial design and program from the Assignment 9 that we submitted. Our original plan was to create a number guessing game using TensorFlow.js. One of the biggest problems that we faced was using this API because in order for it to work feasibly and successfully, we needed to train the model by showing it various and numerous numbers of inputs and examples, which was something that we were unable to do in such a short time. Thus, we decided to create an interactive game  speech recognition in an interactive game. 
 
