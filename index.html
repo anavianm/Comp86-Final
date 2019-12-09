@@ -7,7 +7,7 @@
 <style>
 	canvas {
 		border: 1px solid #d3d3d3;
-		background-color: #f1f1f1;
+		background-color: #ccf5ff;
 		padding-left: 0;
 	    padding-right: 0;
 	    margin-left: auto;
@@ -21,6 +21,7 @@
 
 
 <body onLoad="startGame()">
+<p id="score"></p>
 <!--<h1 class="up"></h1>-->
 	
 <script>
@@ -90,17 +91,19 @@ recognition.onspeechend = function() {
 	
 <script>
 
-var score;
+var score = 0;
 var gamePiece;
 var coinList = [];
 var obstacleList = [];
 
+
 	
 function startGame(){
 	myGameArea.start();
-	obstacle = new component(10, 200, "salmon", 300, 120, "nonimage");
-	gamePiece = new component(30,30,"red", 10,120, "nonimage");
+	obstacle = new component(10, 250, "green", 300, 120, "nonimage");
+	gamePiece = new component(60,60,"bird.png", 10,120, "image");
 	coin = new component(10,10,"mariocoin.png", 60, 60, "image");
+	//score = new component("30px", "Consolas", "black", 280, 40, "text");
 	
 }
 	
@@ -206,8 +209,8 @@ function updateGameArea() {
 		maxGap = 200;
 		gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
 		coinPos = Math.floor(Math.random()*(height-gap) + height+gap);
-		obstacleList.push(new component(10, height, "salmon", x, 0, "nonimage"));
-		obstacleList.push(new component(10, x - height - gap, "salmon", x, height + gap, "nonimage"));
+		obstacleList.push(new component(40, height, "green", x, 0, "nonimage"));
+		obstacleList.push(new component(40, x - height - gap, "green", x, height + gap, "nonimage"));
 		
 		// Defining image for the coin
 		// const coin_img = new Image();
@@ -227,7 +230,10 @@ function updateGameArea() {
         coinList[i].update();
 		
     }
-//	
+    
+    // score.update();
+    document.getElementById("score").innerHTML = ("Score: " + score);
+
     gamePiece.newPos();    
     gamePiece.update();
 }
@@ -268,11 +274,14 @@ function stopMove(){
 	
 
 	
+<div style="text-align:center;">
 <button onmousedown="moveup()" onmouseup="stopMove()" ontouchstart="moveup()">UP</button>
 <button onmousedown="movedown()" onmouseup="stopMove()" ontouchstart="movedown()">DOWN</button>
 <button onmousedown="moveleft()" onmouseup="stopMove()" ontouchstart="moveleft()">LEFT</button>
 <button onmousedown="moveright()" onmouseup="stopMove()" ontouchstart="moveright()">RIGHT</button>
 <h1></h1>
+
+
 
 </body>
 </html>
