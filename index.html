@@ -112,7 +112,7 @@ function startGame(){
 	coin = new component(10,10,"mariocoin.png", 60, 60, "image");
 	//score = new component("30px", "Consolas", "black", 280, 40, "text");
 	
-	ctx.drawImage(bg,0,0);
+	//ctx.drawImage(bg,0,0);
 }
 	
 var myGameArea = {
@@ -240,6 +240,7 @@ function updateGameArea() {
     }
     
     // score.update();
+
     document.getElementById("score").innerHTML = ("Score: " + score);
 
     gamePiece.newPos();    
