@@ -21,6 +21,7 @@
 
 
 <body>
+	<div style="text-align:center;">
 <button onClick="startGame()">Click me to Start the Game!</button>
 <p id="score"></p>
 <!--<h1 class="up"></h1>-->
@@ -100,16 +101,18 @@ var score = 0;
 var gamePiece;
 var coinList = [];
 var obstacleList = [];
-
+var bg = new Image();
+bg.src = "background.png";
 
 	
 function startGame(){
 	myGameArea.start();
 	obstacle = new component(10, 250, "green", 300, 120, "nonimage");
-	gamePiece = new component(60,60,"bird.png", 10,120, "image");
+	gamePiece = new component(40,40,"bird.png", 10,120, "image");
 	coin = new component(10,10,"mariocoin.png", 60, 60, "image");
 	//score = new component("30px", "Consolas", "black", 280, 40, "text");
 	
+	ctx.drawImage(bg,0,0);
 }
 	
 var myGameArea = {
