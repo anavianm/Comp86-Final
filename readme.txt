@@ -3,7 +3,11 @@ Assignment 11
 Maxwell Anavian and Anju Ishizaki
 December 8th, 2019
 
-User Interface Design
+Important Note:
+We have decided to alter our initial design and program from the Assignment 9 that we submitted. Our original plan was to create a number guessing game using TensorFlow.js. One of the biggest problems that we faced was using this API because in order for it to work feasibly and successfully, we needed to train the model by showing it various and numerous numbers of inputs and examples, which was something that we were unable to do in such a short time. 
+
+
+User Interface Design:
 
 First, we have made our design simple and clear. Our main goal or purpose of our project is the speech recognition game, so other designs should be kept simple and limited to bring focus and attention to our game. So, the only features that are placed on the website are the canvas and the control buttons (up, down, etc), as well as the score. The control buttons are placed in proximity to each other, increasing proximity compatibility. Since our game is a speech recognition simple version for the game 'flappybird,' a mobile application that aims to control the bird without hitting the green columns We have utilized familiar icons for coins and the game icon to be flappybird. 
 Furthermore, we implemented an 'instructions' page so that the user knows what to say, and hence what phrases will bring upon which actions. This can be accessed through saying 'how to play' or 'instructions.' Not just the action commands, but if the user wants to restart or start a new game, they can even do so through the speech recognition by saying 'restart.' 
