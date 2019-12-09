@@ -69,6 +69,8 @@ recognition.onresult = (event) => {
 	}else if(finalTranscript == "stop" || finalTranscript == "Stop" && command == 0){
 		stopMove();
 		command = 1;
+	}else if(finalTranscript == "restart game" || finalTranscript == "Restart Game" && command == 0){
+		location.reload();
 	}
 	
 	document.querySelector('h1').innerHTML = finalTranscript + '<i style = "color:#ddd;">'
@@ -264,7 +266,7 @@ function stopMove(){
 	
 </script>
 	
-<img id="image" width="10" height="10" src="marioCoin.png"">
+
 	
 <button onmousedown="moveup()" onmouseup="stopMove()" ontouchstart="moveup()">UP</button>
 <button onmousedown="movedown()" onmouseup="stopMove()" ontouchstart="movedown()">DOWN</button>
